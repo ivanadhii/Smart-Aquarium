@@ -17,27 +17,27 @@ double setpoint = 17.0; // Setpoint temperature
 double temperatureC2, output;
 double integral, lastInput;
 unsigned long lastTime;
-double deltaTime = 1000; // Sampling time in milliseconds
+double deltaTime = 1000; 
 int power;
 
 //NTC
-const int sensorPin = A0; // Anda bisa mengganti A0 dengan pin yang Anda gunakan
+const int sensorPin = A0;
 
 //ACS
-const int ampPin = A1; // Pin analog sensor terhubung ke pin A0
-const float sensitivity = 0.066; // Sensitivitas sensor ACS712 30A dalam mV per A
+const int ampPin = A1; 
+const float sensitivity = 0.066; 
 
-// Inisialisasi objek sensor
-OneWire oneWire(4); // Ubah pin OneWire sesuai dengan pin yang digunakan
+
+OneWire oneWire(4); 
 DallasTemperature sensors(&oneWire);
 
-// Inisialisasi objek LCD dengan modul backpack I2C
-LiquidCrystal_I2C lcd(0x27, 20, 4); // Sesuaikan alamat I2C jika diperlukan
+
+LiquidCrystal_I2C lcd(0x27, 20, 4); 
 
 unsigned long previousMillis = 0;
 const long interval = 500;
 
-// Variabel untuk menyimpan nilai suhu sebelumnya
+
 float prevTemperatureC1 = 0;
 float prevTemperatureC2 = 0;
 
@@ -48,7 +48,7 @@ double ComputePID(double temperatureC2) {
   integral += (error * (now - lastTime));
   double derivative = (temperatureC2 - lastInput) / (now - lastTime);
 
-  output = Kp * error - Ki * integral - Kd * derivative; // Perhatikan tanda negatif pada Kp dan Ki
+  output = Kp * error - Ki * integral - Kd * derivative; 
 
   lastInput = temperatureC2;
   lastTime = now;
@@ -94,20 +94,20 @@ void loop(){
 
 
   //NTC 100K
-  int sensorValue = analogRead(sensorPin); // Baca nilai analog dari sensor
+  int sensorValue = analogRead(sensorPin); // read analog value sensor
   
-  // Konversi nilai analog menjadi suhu dalam derajat Celsius
+  // conversion analog reading to temperature in Celsius
   float resistance = (1023.0 / sensorValue) - 1.0;
   resistance = 10000.0 / resistance;
   float heat = log(resistance / 10000.0) / 3950.0;
-  heat += 1.0 / (25 + 273.15); // Tambahan suhu di 25 derajat Celcius
-  heat = 1.0 / heat - 273.15; // Konversi ke Celcius
+  heat += 1.0 / (25 + 273.15); // 25 derajat Celcius
+  heat = 1.0 / heat - 273.15; // conversion Celcius
 
   //ACS
   int ampValue = analogRead(ampPin); // Baca nilai analog dari sensor
   float voltage = ampValue * (5.0 / 1023.0); // Konversi nilai analog menjadi tegangan
 
-  // Hitung arus berdasarkan sensitivitas sensor
+  // calculate ampere
   float current = (voltage - 2.5) / sensitivity;
   float amps = 12 * current;
 
@@ -133,7 +133,7 @@ void loop(){
   lcd.print(heat);
   lcd.print(" C");
 	
-	// Kirim data ke ESP8266
+  // sending data to ESP8266
   ArduinoUno.print("sensor 1:");
   ArduinoUno.println(temperatureC1);
 
