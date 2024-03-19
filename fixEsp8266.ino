@@ -4,23 +4,23 @@
 
 SoftwareSerial NodeMCU(D2,D3);
 
-#define BLYNK_TEMPLATE_ID "TMPL6hM7iAwWf"
-#define BLYNK_TEMPLATE_NAME "Axolotl Aquarium"
-#define BLYNK_AUTH_TOKEN "J3925trk0yUL2PfKQUOTBG8DrWaf9nzs"
+#define BLYNK_TEMPLATE_ID "FILL WITH YOUR BLYNK_TEMPLATE_ID"
+#define BLYNK_TEMPLATE_NAME "FILL WITH YOUR BLYNK_TEMPLATE_NAME"
+#define BLYNK_AUTH_TOKEN "FILL WITH YOUR BLYNK_AUTH_TOKEN"
 
-char auth[] = "J3925trk0yUL2PfKQUOTBG8DrWaf9nzs"; // Masukkan token otentikasi dari Blynk
-char ssid[] = "construction"; // Masukkan nama jaringan WiFi Anda
-char pass[] = "unavailable"; // Masukkan kata sandi WiFi Anda
+char auth[] = "FILL WITH YOUR ";
+char ssid[] = "YOUR WIFI SSID"; 
+char pass[] = "YOUR WIFI PASSWORD"; 
 
-String inputString = ""; // String untuk menyimpan data dari Serial
-float sensor1Value, sensor2Value, sensor3Value, sensor4Value, sensor5Value; // Variabel untuk menyimpan nilai sensor
+String inputString = ""; 
+float sensor1Value, sensor2Value, sensor3Value, sensor4Value, sensor5Value; 
 
 void setup() {
-  Serial.begin(9600);   // Inisialisasi Serial Monitor
+  Serial.begin(9600);   
   NodeMCU.begin(4800);
-  Blynk.begin(auth, ssid, pass); // Mulai koneksi Blynk dengan otentikasi dan kredensial WiFi
+  Blynk.begin(auth, ssid, pass); 
 
-  // Inisialisasi koneksi WiFi
+  
   WiFi.begin(ssid, pass);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -31,11 +31,11 @@ void setup() {
 }
 
 void loop() {
-  Blynk.run(); // Memanggil Blynk.run di dalam loop
+  Blynk.run(); 
   Blynk.syncAll();
   
   while (NodeMCU.available()) {
-    // Baca data dari Serial Monitor
+    
     char inChar = (char)NodeMCU.read();
     inputString += inChar;
 
